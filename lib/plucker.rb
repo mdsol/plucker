@@ -40,5 +40,14 @@ module Plucker
   	end
   end
 
+  def main_search(features,steps)
+  	Dir.chdir(features)
+  	feature_files = Dir.glob('**/**/*.feature')
+  	steps.each do |step|
+  		feature_files.each do |feature_file|
+  		end
+  	end
+  end
+
 end
 
