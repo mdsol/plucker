@@ -40,11 +40,21 @@ module Plucker
   	end
   end
 
+  def regexp_match(step_definition,step)
+  	string_reg = step_definition[step_definition.index('/^')..step_definition.index('$/')+1]
+  	string_reg.to_regexp ~= step
+  end
+
   def main_search(features,steps)
   	Dir.chdir(features)
   	feature_files = Dir.glob('**/**/*.feature')
   	steps.each do |step|
   		feature_files.each do |feature_file|
+  			File.readlines(feature_file).each do |line|
+  				if regexp_match(step,line)
+  				else
+  				end
+  			end
   		end
   	end
   end
