@@ -1,5 +1,7 @@
-require "plucker/version"
+require "to_regexp"
 
 module Plucker
-  # Your code goes here...
+  def main_sequence
+  end
 end
+
