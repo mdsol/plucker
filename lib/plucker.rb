@@ -110,6 +110,15 @@ module Plucker
   end
 
   def greedy_sequence(result)
+    final_res = []
+    while result.size >= 1
+      temp = result[result.size-1]
+      final_res.push(result.pop)
+      temp[:steps].each do |step|
+        result.each do |featuple|
+        end
+      end
+    end
   end
 
   def process_results(result)
