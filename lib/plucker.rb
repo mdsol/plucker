@@ -116,9 +116,13 @@ module Plucker
       final_res.push(result.pop)
       temp[:steps].each do |step|
         result.each do |featuple|
+          featuple[:steps].delete(step)
+          result.delete(featuple) if featuple[:steps].size == 0
         end
       end
+      result.sort{|x,y| x[:steps].size <=> y[:steps].size}
     end
+    final_res
   end
 
   def process_results(result)
