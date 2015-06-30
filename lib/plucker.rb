@@ -109,14 +109,12 @@ module Plucker
   def main_search_custom(features,steps)
   end
 
-  def feature_sort(result)
-  end
-
   def greedy_sequence(result)
   end
 
   def process_results(result)
-    greedy_sequence(feature_sort(result))
+    result.sort{|x,y| x[:steps].size <=> y[:steps].size}
+    greedy_sequence(result)
   end
 
 end
