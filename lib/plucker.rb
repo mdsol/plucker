@@ -5,23 +5,56 @@ module Plucker
   Struct.new("featuple_one", :feature, :steps)
   Struct.new("featuple_two", :feature, :count)
 
-  def main_sequence
-    #This is the code for lowest sequence of feature files.
-  	step_definitions = []
+  step_definitions = []
+  features_dir = ""
 
-  	puts("")
-  	puts("****-Hello and welcome to plucker!-****")
-  	puts("")
-  	puts("To begin please enter the path for your features directory:")
-  	features_dir = gets
-  	process_steps(step_definitions)
-  	results = process_results(main_search(features_dir,step_defintions))
-  	puts("Done. Here is the smallest sequence of feature files you must run:")
-  	puts("")
-  	puts(results)
+  def main_sequence
+    sequence_start
+    if step_definitions.size == 1
+      single_step
+    else
+      mode_picker
+    end
+  end
+
+  def sequence_start
+    puts("")
+    puts("****-Hello and welcome to plucker!-****")
+    puts("")
+    puts("To begin please enter the path for your features directory:")
+    features_dir = gets
+    process_steps(step_definitions)
+  end
+
+  def single_step
+  end
+
+  def shortest_sequence
+    results = process_results(main_search_seq(features_dir,step_defintions))
+    puts("Done. Here is the smallest sequence of feature files you must run:")
+    puts("")
+    puts(results)
+  end
+
+  def custom_file
   end
 
   def mode_picker
+    puts("Please select your preferred option.")
+    puts("---------------------")
+    puts("****-A. Return a list of the smallest sequence of full feature files possible to test all modified step definitions.")
+    puts("****-B. Create an encompassing custom feature file consisting of existing scenarios that test all modified step definitions.")
+    puts("---------------------")
+    puts("A or B?")
+    user_option = gets
+    #if user_option == 'a' || user_option == 'A'
+      shortest_sequence
+    #elsif user_option == 'b' || user_option == 'B'
+    #  custom_file
+    #else
+    #  puts("Sorry that is not a valid input.")
+    #  mode_picker
+    #end
   end
 
   def process_steps(steps)
@@ -51,7 +84,10 @@ module Plucker
   	string_reg.to_regexp ~= step
   end
 
-  def main_search(features,steps)
+  def main_search_single(features,steps)
+  end
+
+  def main_search_seq(features,steps)
     result = []
   	Dir.chdir(features)
   	feature_files = Dir.glob('**/**/*.feature')
@@ -68,6 +104,9 @@ module Plucker
       result.push(featuple) if curr_featuple[:steps].size >= 1
   	end
     result
+  end
+
+  def main_search_custom(features,steps)
   end
 
   def feature_sort(result)
