@@ -2,8 +2,11 @@ require "to_regexp"
 
 module Plucker
 
-  def main_sequence
+  Struct.new("featuple_one", :feature, :steps)
+  Struct.new("featuple_two", :feature, :count)
 
+  def main_sequence
+    #This is the code for lowest sequence of feature files.
   	step_definitions = []
 
   	puts("")
@@ -12,10 +15,13 @@ module Plucker
   	puts("To begin please enter the path for your features directory:")
   	features_dir = gets
   	process_steps(step_definitions)
-  	results = main_search(features_dir,step_defintions)
+  	results = process_results(main_search(features_dir,step_defintions))
   	puts("Done. Here is the smallest sequence of feature files you must run:")
   	puts("")
   	puts(results)
+  end
+
+  def mode_picker
   end
 
   def process_steps(steps)
@@ -46,17 +52,32 @@ module Plucker
   end
 
   def main_search(features,steps)
+    result = []
   	Dir.chdir(features)
   	feature_files = Dir.glob('**/**/*.feature')
-  	steps.each do |step|
-  		feature_files.each do |feature_file|
+  	feature_files.each do |feature_file|
+      curr_featuple = Struct::featuple_one.new(<insert code to get file name from file here>,[])
+  		steps.each do |step|
   			File.readlines(feature_file).each do |line|
-  				if regexp_match(step,line)
-  				else
-  				end
+          if regexp_match(step,line)
+            curr_featuple[:steps].push(step) 
+            break
+          end
   			end
   		end
+      result.push(featuple) if curr_featuple[:steps].size >= 1
   	end
+    result
+  end
+
+  def feature_sort(result)
+  end
+
+  def greedy_sequence(result)
+  end
+
+  def process_results(result)
+    greedy_sequence(feature_sort(result))
   end
 
 end
