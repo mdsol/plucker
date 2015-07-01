@@ -22,7 +22,7 @@ module Plucker
     puts("****-Hello and welcome to plucker!-****")
     puts("")
     puts("To begin please enter the path for your features directory:")
-    $features_dir = gets
+    $features_dir = gets.chomp
     process_steps($step_definitions)
   end
 
@@ -30,7 +30,7 @@ module Plucker
   end
 
   def shortest_sequence
-    results = process_results(main_search_seq($features_dir,step_defintions))
+    results = process_results(main_search_seq($features_dir, $step_defintions))
     puts("Done. Here is the smallest sequence of feature files you must run:")
     puts("")
     puts(results)
@@ -46,7 +46,7 @@ module Plucker
     puts("****-B. Create an encompassing custom feature file consisting of existing scenarios that test all modified step definitions.")
     puts("---------------------")
     puts("A or B?")
-    user_option = gets
+    user_option = gets.chomp
     #if user_option == 'a' || user_option == 'A'
       shortest_sequence
     #elsif user_option == 'b' || user_option == 'B'
@@ -58,20 +58,23 @@ module Plucker
   end
 
   def process_steps(steps)
-    puts("Thank you. Now enter the heads of your modified step definition(s):") 
-    puts("--This is everything before 'do' and the argument block.--")
-    steps.push(gets)
+    puts("Thank you. Now enter the head(s) of your modified step definition(s):") 
+    puts("--This is the first line of the definition which defines it--")
+    puts("")
+    steps.push(gets.chomp)
     process_steps_helper(steps)
   end
 
   def process_steps_helper(steps)
     puts("Are there more modified step definitions? (Y/N)")
-    user_response = gets
+    user_response = gets.chomp
+    puts(user_response)
     if user_response == 'y' || user_response == 'Y' || user_response == 'yes' || user_response == 'Yes' || user_response == 'YES'
       puts("Enter your modified step definition:")
-      steps.push(gets)
+      steps.push(gets.chomp)
       process_steps_helper(steps)
     elsif user_response == 'n' || user_response == 'N' || user_response == 'no' || user_response == 'No' || user_response == 'NO'
+      puts("dasfdasf")
     else
       puts("Sorry that is not a valid response please try again.")
       puts("")
@@ -142,6 +145,4 @@ module Plucker
   end
 
 end
-
-Plucker.main_sequence
 
