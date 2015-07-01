@@ -103,7 +103,7 @@ module Plucker
   	Dir.chdir(features)
   	feature_files = Dir.glob('**/**/*.feature')
   	feature_files.each do |feature_file|
-      curr_featuple = Struct::featuple_one.new(<insert code to get file name from file here>,[])
+      curr_featuple = Struct::featuple_one.new(File.absolute_path(feature_file),[])
   		steps.each do |step|
   			File.readlines(feature_file).each do |line|
           if regexp_match(step,line)
