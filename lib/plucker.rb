@@ -81,7 +81,18 @@ module Plucker
 
   def regexp_match(step_definition,step)
   	string_reg = step_definition[step_definition.index('/^')..step_definition.index('$/')+1]
-  	string_reg.to_regexp ~= step
+  	string_temp_one = step.lstrip.chomp
+    string_step = ""
+    if string_temp_one.start_with?('Given')
+      string_step = string_temp_one[6..string_temp_one.size-1]
+    elsif string_temp_one.start_with?('Then') || string_temp_one.start_with?('When')
+      string_step = string_temp_one[5..string_temp_one.size-1]
+    elsif string_temp_one.start_with?('And') || string_temp_one.start_with?('But')
+      string_step = string_temp_one[4..string_temp_one.size-1]
+    else
+    end
+    my_reg = string_reg.to_regexp
+    my_reg =~ string_step    
   end
 
   def main_search_single(features,steps)
