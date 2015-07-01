@@ -143,4 +143,5 @@ module Plucker
 
 end
 
+Plucker.main_sequence
 
