@@ -1,8 +1,9 @@
 # Plucker
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/plucker`. To experiment with that code, run `bin/console` for an interactive prompt.
+Pluck the seeds you want from your cucumber with plucker!
+A regexp matching search that simplifies testing code modifications in cucumber testing environment. 
+Instead of having to guess and brute search, plucker helps you find the best testing option for your modified code in your environment in various easy to understand formats.
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
@@ -22,7 +23,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Type 'plucker' into your terminal in your repo and follow the easy to follow instructions!
 
 ## Development
 
