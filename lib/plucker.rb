@@ -75,7 +75,6 @@ module Plucker
       steps.push(gets.chomp)
       process_steps_helper(steps)
     elsif user_response == 'n' || user_response == 'N' || user_response == 'no' || user_response == 'No' || user_response == 'NO'
-      puts("dasfdasf")
     else
       puts("Sorry that is not a valid response please try again.")
       puts("")
@@ -129,12 +128,12 @@ module Plucker
     while result.size >= 1
       temp = result[result.size-1]
       final_res.push(result.pop)
-      temp[:steps].each do |step|
-        result.each do |featuple|
+      result.each do |featuple|
+        temp[:steps].each do |step|
           featuple[:steps].delete(step)
-          result.delete(featuple) if featuple[:steps].size == 0
         end
       end
+      result.delete_if{|feat| feat[:steps].size == 0}
       result.sort!{| a , b | a[:steps].size <=> b[:steps].size}
     end
     final_res
