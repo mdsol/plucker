@@ -30,10 +30,12 @@ module Plucker
   end
 
   def shortest_sequence
-    results = process_results(main_search_seq($features_dir, $step_defintions))
+    results = process_results(main_search_seq($features_dir))
     puts("Done. Here is the smallest sequence of feature files you must run:")
     puts("")
-    puts(results)
+    results.each do |result|
+      puts result[:feature]
+    end
   end
 
   def custom_file
@@ -68,7 +70,6 @@ module Plucker
   def process_steps_helper(steps)
     puts("Are there more modified step definitions? (Y/N)")
     user_response = gets.chomp
-    puts(user_response)
     if user_response == 'y' || user_response == 'Y' || user_response == 'yes' || user_response == 'Yes' || user_response == 'YES'
       puts("Enter your modified step definition:")
       steps.push(gets.chomp)
@@ -101,13 +102,13 @@ module Plucker
   def main_search_single(features,steps)
   end
 
-  def main_search_seq(features,steps)
+  def main_search_seq(features)
     result = []
     Dir.chdir(features)
     feature_files = Dir.glob('**/**/*.feature')
     feature_files.each do |feature_file|
       curr_featuple = Struct::Featuple.new(File.absolute_path(feature_file),[])
-      steps.each do |step|
+      $step_definitions.each do |step|
         File.readlines(feature_file).each do |line|
           if regexp_match(step,line)
             curr_featuple[:steps].push(step) 
@@ -115,12 +116,12 @@ module Plucker
           end
         end
       end
-      result.push(featuple) if curr_featuple[:steps].size >= 1
+      result.push(curr_featuple) if curr_featuple[:steps].size >= 1
     end
     result
   end
 
-  def main_search_custom(features,steps)
+  def main_search_custom(features)
   end
 
   def greedy_sequence(result)
@@ -134,13 +135,13 @@ module Plucker
           result.delete(featuple) if featuple[:steps].size == 0
         end
       end
-      result.sort{|x,y| x[:steps].size <=> y[:steps].size}
+      result.sort!{| a , b | a[:steps].size <=> b[:steps].size}
     end
     final_res
   end
 
   def process_results(result)
-    result.sort{|x,y| x[:steps].size <=> y[:steps].size}
+    result.sort!{| a , b | a[:steps].size <=> b[:steps].size}
     greedy_sequence(result)
   end
 
