@@ -19,10 +19,12 @@ module Plucker
 
   def sequence_start
     puts("")
-    puts("****-Hello and welcome to plucker!-****")
+    puts("********----- Hello and welcome to plucker! -----********")
     puts("")
     puts("To begin please enter the path for your features directory:")
+    puts("")
     $features_dir = gets.chomp
+    puts("")
     process_steps($step_definitions)
   end
 
@@ -36,6 +38,7 @@ module Plucker
     results.each do |result|
       puts result[:feature]
     end
+    puts("")
   end
 
   def custom_file
@@ -43,12 +46,13 @@ module Plucker
 
   def mode_picker
     puts("Please select your preferred option.")
-    puts("---------------------")
+    puts("--------------------------------------")
     puts("****-A. Return a list of the smallest sequence of full feature files possible to test all modified step definitions.")
     puts("****-B. Create an encompassing custom feature file consisting of existing scenarios that test all modified step definitions.")
-    puts("---------------------")
+    puts("--------------------------------------")
     puts("A or B?")
     user_option = gets.chomp
+    puts("")
     #if user_option == 'a' || user_option == 'A'
       shortest_sequence
     #elsif user_option == 'b' || user_option == 'B'
@@ -64,15 +68,19 @@ module Plucker
     puts("--This is the first line of the definition which defines it--")
     puts("")
     steps.push(gets.chomp)
+    puts("")
     process_steps_helper(steps)
   end
 
   def process_steps_helper(steps)
     puts("Are there more modified step definitions? (Y/N)")
     user_response = gets.chomp
+    puts("")
     if user_response == 'y' || user_response == 'Y' || user_response == 'yes' || user_response == 'Yes' || user_response == 'YES'
       puts("Enter your modified step definition:")
+      puts("")
       steps.push(gets.chomp)
+      puts("")
       process_steps_helper(steps)
     elsif user_response == 'n' || user_response == 'N' || user_response == 'no' || user_response == 'No' || user_response == 'NO'
     else
