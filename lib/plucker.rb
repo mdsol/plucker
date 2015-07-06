@@ -11,6 +11,8 @@ module Plucker
   def main_sequence
     sequence_start
     if $step_definitions.size == 1
+      puts("")
+      puts("It seems that you only have one modified step definition. Please select from the following two options:")
       single_step
     else
       mode_picker
@@ -29,6 +31,30 @@ module Plucker
   end
 
   def single_step
+    puts("--------------------------------------")
+    puts("****-A. Return the shortest feature file that includes the modified step.")
+    puts("****-B. Return the feature file with the most occurrences of the modified step.")
+    puts("--------------------------------------")
+    puts("A or B?")
+    user_option = gets.chomp
+    puts("")
+    if user_option == 'a' || user_option == 'A'
+      single_short($features_dir)
+    elsif user_option == 'b' || user_option == 'B'
+      single_most
+    else
+      puts("Sorry that is not a valid input.")
+      single_step
+    end
+  end
+
+  def single_short(features)
+    result = []
+    Dir.chdir(features)
+    feature_files = Dir.glob('**/**/*.feature')
+  end
+
+  def single_most
   end
 
   def shortest_sequence
