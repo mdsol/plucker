@@ -4,6 +4,7 @@ module Plucker
 
   Struct.new("Featuple", :feature, :steps)
   Struct.new("Countuple", :feature, :count)
+  Struct.new("Linetuple", :feature, :lines)
 
   $step_definitions = []
   $features_dir = ""
@@ -48,13 +49,37 @@ module Plucker
     end
   end
 
+  def return_short(results)
+    curr_min = results[0]
+    results.each do |result|
+      curr_min = result if result[:lines] <= curr_min[:lines]
+    end
+    curr_min[:feature]
+  end
+
   def single_short(features)
     result = []
     Dir.chdir(features)
     feature_files = Dir.glob('**/**/*.feature')
+    feature_files.each do |feature_file|
+      lines = File.readlines(feature_file)
+      curr_linetuple = Struct::Linetuple.new(File.absolute_path(feature_file),lines.size)
+      lines.each do |line|
+        if regexp_match($step_definitions[0],line)
+          result.push(curr_linetuple)
+          break
+        end
+      end
+    end 
+    puts("Done. Here is the shortest feature file that contains the modified step:")
+    puts("")
+    puts(return_short(result))
+    puts("")
   end
 
   def single_most
+    result = []
+    Dir.chdir(features)
   end
 
   def shortest_sequence
