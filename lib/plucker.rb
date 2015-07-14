@@ -77,9 +77,32 @@ module Plucker
     puts("")
   end
 
+  def return_count(results)
+    curr_max = results[0]
+    results.each do |result|
+      curr_max = result if result[:count] >= curr_max[:count]
+    end
+    curr_max[:count]
+  end
+
   def single_most
     result = []
     Dir.chdir(features)
+    feature_files = Dir.glob('**/**/*.feature')
+    feature_files.each do |feature_file|
+      lines = File.readlines(feature_file)
+      curr_countuple = Struct::Countuple.new(File.absolute_path(feature_file),0)
+      lines.each do |line|
+        if regexp_match($step_definitions[0],line)
+          curr_countuple[:count] += 1
+        end
+      end
+      result.push(curr_countuple) if curr_countuple[:count] > 0
+    end
+    puts("Done. Here is the shortest feature file that contains the modified step:")
+    puts("")
+    puts(return_count(result))
+    puts("")
   end
 
   def shortest_sequence
