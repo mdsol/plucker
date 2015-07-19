@@ -42,7 +42,7 @@ module Plucker
     if user_option == 'a' || user_option == 'A'
       single_short($features_dir)
     elsif user_option == 'b' || user_option == 'B'
-      single_most
+      single_most($features_dir)
     else
       puts("Sorry that is not a valid input.")
       single_step
@@ -82,10 +82,10 @@ module Plucker
     results.each do |result|
       curr_max = result if result[:count] >= curr_max[:count]
     end
-    curr_max[:count]
+    curr_max[:feature]
   end
 
-  def single_most
+  def single_most(features)
     result = []
     Dir.chdir(features)
     feature_files = Dir.glob('**/**/*.feature')
@@ -99,7 +99,7 @@ module Plucker
       end
       result.push(curr_countuple) if curr_countuple[:count] > 0
     end
-    puts("Done. Here is the shortest feature file that contains the modified step:")
+    puts("Done. Here is the feature files with the most occurrences of your modified step definition:")
     puts("")
     puts(return_count(result))
     puts("")
@@ -115,14 +115,11 @@ module Plucker
     puts("")
   end
 
-  def custom_file
-  end
-
   def mode_picker
     puts("Please select your preferred option.")
     puts("--------------------------------------")
     puts("****-A. Return a list of the smallest sequence of full feature files possible to test all modified step definitions.")
-    puts("****-B. Create an encompassing custom feature file consisting of existing scenarios that test all modified step definitions.")
+    puts("****-B. Create an encompassing list of scenarios to run that tests every modified step.")
     puts("--------------------------------------")
     puts("A or B?")
     user_option = gets.chomp
@@ -180,9 +177,6 @@ module Plucker
     my_reg =~ string_step    
   end
 
-  def main_search_single(features,steps)
-  end
-
   def main_search_seq(features)
     result = []
     Dir.chdir(features)
@@ -202,7 +196,39 @@ module Plucker
     result
   end
 
+  def return_scenario(file_lines, line_num)
+  end
+
+  def scenario_format(feature, scenario_num)
+  end
+
   def main_search_custom(features)
+    result = []
+    Dir.chdir(features)
+    feature_files = Dir.glob('**/**/*.feature')
+    $step_definitions.each do |step|
+      next_step = false 
+      feature_files.each do |feature_file|
+        lines = File.readlines(feature_file)
+        for i in 0..lines.size-1
+          if regexp_match(step,lines[i])
+            scenario_number = return_scenario(lines,i)
+            result.push(scenario_format(feature_file,scenario_number))
+            next_step = true
+            break
+          end
+        end
+        if next_step
+          break
+        end
+      end
+    end
+    result
+  end
+
+
+  def custom_file
+    results = main_search_custom($features_dir)
   end
 
   def greedy_sequence(result)
