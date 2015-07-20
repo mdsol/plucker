@@ -197,9 +197,15 @@ module Plucker
   end
 
   def return_scenario(file_lines, line_num)
+    while line_num >= 0
+      line_num + 1 if file_lines[line_num].include?() "Scenario:"
+      line_num -= 1
+    end
   end
 
   def scenario_format(feature, scenario_num)
+    temp_feature = feature[feature.index('features')..feature.size]
+    temp_feature + ":" + scenario_num.to_s
   end
 
   def main_search_custom(features)
