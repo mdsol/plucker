@@ -115,6 +115,11 @@ module Plucker
     puts("")
   end
 
+  def custom_file
+    results = main_search_custom($features_dir)
+    puts(results)
+  end
+
   def mode_picker
     puts("Please select your preferred option.")
     puts("--------------------------------------")
@@ -124,14 +129,14 @@ module Plucker
     puts("A or B?")
     user_option = gets.chomp
     puts("")
-    #if user_option == 'a' || user_option == 'A'
+    if user_option == 'a' || user_option == 'A'
       shortest_sequence
-    #elsif user_option == 'b' || user_option == 'B'
-    #  custom_file
-    #else
-    #  puts("Sorry that is not a valid input.")
-    #  mode_picker
-    #end
+    elsif user_option == 'b' || user_option == 'B'
+      custom_file
+    else
+      puts("Sorry that is not a valid input.")
+      mode_picker
+    end
   end
 
   def process_steps(steps)
@@ -198,14 +203,13 @@ module Plucker
 
   def return_scenario(file_lines, line_num)
     while line_num >= 0
-      line_num + 1 if file_lines[line_num].include?() "Scenario:"
+      return (line_num + 1) if file_lines[line_num].include? "Scenario:"
       line_num -= 1
     end
   end
 
   def scenario_format(feature, scenario_num)
-    temp_feature = feature[feature.index('features')..feature.size]
-    temp_feature + ":" + scenario_num.to_s
+    feature + ":" + scenario_num.to_s
   end
 
   def main_search_custom(features)
@@ -230,11 +234,6 @@ module Plucker
       end
     end
     result
-  end
-
-
-  def custom_file
-    results = main_search_custom($features_dir)
   end
 
   def greedy_sequence(result)
