@@ -7,7 +7,7 @@ module Plucker
   Struct.new("Linetuple", :feature, :lines)
 
   $step_definitions = []
-  $features_dir = ""
+  $features_dir = "/Users/gding/imedidata/features"
 
   def main_sequence
     sequence_start
@@ -24,9 +24,6 @@ module Plucker
     puts("")
     puts("********----- Hello and welcome to plucker! -----********")
     puts("")
-    puts("To begin please enter the path for your features directory:")
-    puts("")
-    $features_dir = gets.chomp
     puts("")
     process_steps($step_definitions)
   end
@@ -140,7 +137,7 @@ module Plucker
   end
 
   def process_steps(steps)
-    puts("Thank you. Now enter the head(s) of your modified step definition(s):") 
+    puts("Enter the head(s) of your modified step definition(s):") 
     puts("--This is the first line of the definition which defines it--")
     puts("")
     steps.push(gets.chomp)
@@ -209,7 +206,7 @@ module Plucker
   end
 
   def scenario_format(feature, scenario_num)
-    feature + ":" + scenario_num.to_s
+    "features/" + feature + ":" + scenario_num.to_s
   end
 
   def main_search_custom(features)
